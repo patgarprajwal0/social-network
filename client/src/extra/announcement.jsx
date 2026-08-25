@@ -1,6 +1,6 @@
 // src/extra/Announcement.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../apiClient';
 import './announcement.css'; // Add your CSS styles for the announcement page
 
 const Announcement = () => {
@@ -9,7 +9,7 @@ const Announcement = () => {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/announcements');
+        const res = await axios.get('/announcements');
         setAnnouncements(res.data);
       } catch (err) {
         console.error("Error fetching announcements:", err);

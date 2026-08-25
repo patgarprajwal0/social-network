@@ -2,11 +2,10 @@ import {useEffect,useState,useContext} from "react";
 import Share from "../share/Share";
 import Post from "../post/Post";
 import "./feed.css";
-import axios from "axios"
+import axios from "../../apiClient";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Feed({username}) {
-  axios.defaults.baseURL = 'http://localhost:8800';
 
   const [posts,setPosts]=useState([]);
   const {user}=useContext(AuthContext)

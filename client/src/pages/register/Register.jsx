@@ -1,10 +1,9 @@
 import "./register.css";
 import { useRef, useState } from "react";
-import axios from "axios";
+import axios from "../../apiClient";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  axios.defaults.baseURL = "http://localhost:8800/api";
   const username = useRef();
   const email = useRef();
   const password = useRef();

@@ -4,13 +4,12 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
 import {useState,useEffect} from "react";
-import axios from "axios"
+import axios, { imageBaseUrl } from "../../apiClient";
 import { useParams } from "react-router";
 
 
 export default function Profile({post}) {
-  axios.defaults.baseURL = 'http://localhost:8800/api/';
-  const PF = "http://localhost:8800/images/";
+  const PF = imageBaseUrl;
   const [user,setUser] = useState({});
   const username = useParams().username;
   useEffect(()=>{

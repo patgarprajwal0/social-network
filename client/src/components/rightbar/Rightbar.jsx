@@ -1,13 +1,12 @@
 import "./rightbar.css";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import axios, { imageBaseUrl } from "../../apiClient";
 import { Link, useNavigate } from "react-router-dom";
 import { Add, Remove } from "@mui/icons-material";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Rightbar({ user }) {
-  const PF = "http://localhost:8800/images/";
-  axios.defaults.baseURL = "http://localhost:8800/api";
+  const PF = imageBaseUrl;
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
   const [friends, setFriends] = useState([]);

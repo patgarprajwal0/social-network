@@ -2,11 +2,11 @@ import { useContext,useState,useRef } from "react";
 import "./share.css"; 
 import {PermMedia,Label,Room,EmojiEmotions, Cancel} from "@mui/icons-material";
 import {AuthContext} from "../../context/AuthContext";
-import axios from "axios"
+import axios, { imageBaseUrl } from "../../apiClient";
 
 export default function Share() {
     const {user}=useContext(AuthContext);
-    const PF = "http://localhost:8800/images/";
+    const PF = imageBaseUrl;
     const desc = useRef();
     const [file,setFile]=useState(null)
 

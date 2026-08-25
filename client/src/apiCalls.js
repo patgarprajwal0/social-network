@@ -1,8 +1,7 @@
-import axios from "axios"
+import axios from "./apiClient";
 
 
 export const loginCall=async(userCredential,dispatch)=>{
-   axios.defaults.baseURL = 'http://localhost:8800/api';
      dispatch({type:"LOGIN_START"});
      try{
         const res=await axios.post("auth/login",userCredential);
@@ -10,4 +9,4 @@ export const loginCall=async(userCredential,dispatch)=>{
      }catch(err){
          dispatch({type:"LOGIN_FAILURE",payload:err})
      }
-}  
+}

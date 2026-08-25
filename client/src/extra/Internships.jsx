@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../apiClient';
 import './Internships.css'; // CSS for styling
 
 const Internships = () => {
@@ -8,7 +8,7 @@ const Internships = () => {
   useEffect(() => {
     const fetchInternships = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/internships');
+        const res = await axios.get('/internships');
         setInternships(res.data);
       } catch (err) {
         console.error("Error fetching internships:", err);

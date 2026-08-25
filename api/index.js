@@ -31,8 +31,11 @@ mongoose
     console.error("Error connecting to MongoDB:", err);
   });
 
-// Serve images statically
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+const imagesDirectory = path.join(__dirname, "public", "images");
+const clientBuildDirectory = path.join(__dirname, "..", "client", "build");
+
+// Serve uploaded and bundled images from the same origin as the app.
+app.use("/images", express.static(imagesDirectory));
 
 // Middleware
 app.use(cors());
@@ -43,7 +46,7 @@ app.use(morgan("common"));
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/images");
+    cb(null, imagesDirectory);
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -72,16 +75,19 @@ app.use("/api/clubs", studentOrganizationRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/internships",internshipRoutes);
 
-// Test routes
-app.get("/", (req, res) => {
-  res.send("Welcome to home");
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
 });
 
-app.get("/users", (req, res) => {
-  res.send("Welcome to home user");
+// In Azure App Service the API serves the production React build.  Keeping the
+// client and API on one origin avoids CORS and localhost configuration issues.
+app.use(express.static(clientBuildDirectory));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(clientBuildDirectory, "index.html"));
 });
 
 // Start the server
-app.listen(8800, () => {
-  console.log("Backend server is running on port 8800");
+const port = Number(process.env.PORT) || 8800;
+app.listen(port, () => {
+  console.log(`Backend server is running on port ${port}`);
 });

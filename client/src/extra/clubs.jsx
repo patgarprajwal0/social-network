@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../apiClient';
 import './clubs.css'; // Add your CSS styles for the organization page
 
 const StudentOrganization = () => {
@@ -8,7 +8,7 @@ const StudentOrganization = () => {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/clubs');
+        const res = await axios.get('/clubs');
         setOrganizations(res.data);
       } catch (err) {
         console.error('Error fetching student organizations:', err);

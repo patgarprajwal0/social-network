@@ -1,7 +1,8 @@
 import "./closeFriend.css"
+import { imageBaseUrl } from "../../apiClient";
 
 export default function CloseFriend({user}) {
-  const PF = "http://localhost:8800/images/";
+  const PF = imageBaseUrl;
 
   return (
     <li className="sidebarFriend">

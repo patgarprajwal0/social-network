@@ -1,7 +1,7 @@
 import "./post.css";
 import { MoreVert } from "@mui/icons-material";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import axios, { imageBaseUrl } from "../../apiClient";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -10,10 +10,9 @@ export default function Post({ post }) {
   const [like, setLike] = useState(0); // Initialize like count as 0
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
-  const PF = "http://localhost:8800/images/";
+  const PF = imageBaseUrl;
   const { user: currentUser } = useContext(AuthContext);
 
-  axios.defaults.baseURL = "http://localhost:8800/api";
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../apiClient';
 import './UpcomingEvents.css'; // CSS for styling
 
 const UpcomingEvents = () => {
@@ -8,7 +8,7 @@ const UpcomingEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/events');
+        const res = await axios.get('/events');
         setEvents(res.data);
       } catch (err) {
         console.error("Error fetching events:", err);

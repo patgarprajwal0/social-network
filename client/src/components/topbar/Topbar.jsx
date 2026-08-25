@@ -3,10 +3,11 @@ import { Search, Person, Chat, Notifications } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { imageBaseUrl } from "../../apiClient";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
-  const PF = "http://localhost:8800/images/";
+  const PF = imageBaseUrl;
   const [searchQuery, setSearchQuery] = useState(""); // State to track search input
   const navigate = useNavigate(); // Hook to programmatically navigate
 

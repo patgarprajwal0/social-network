@@ -1,0 +1,16 @@
+{
+  "name": "social-network",
+  "private": true,
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "api"
+  ],
+  "scripts": {
+    "start": "node api/index.js",
+    "build": "npm --prefix client run build",
+    "postinstall": "npm --prefix client ci && npm --prefix client run build"
+  }
+}

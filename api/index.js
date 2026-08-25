@@ -18,18 +18,21 @@ const path = require("path");
 
 dotenv.config();
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Successfully connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-  });
+// Connect to MongoDB when its production setting is configured. Keeping the
+// HTTP server available makes Azure health checks and deployment diagnostics
+// work even if the database setting has not been added yet.
+if (process.env.MONGO_URL) {
+  mongoose
+    .connect(process.env.MONGO_URL)
+    .then(() => {
+      console.log("Successfully connected to MongoDB");
+    })
+    .catch((err) => {
+      console.error("Error connecting to MongoDB:", err);
+    });
+} else {
+  console.error("MONGO_URL is not configured; database features are unavailable.");
+}
 
 const imagesDirectory = path.join(__dirname, "public", "images");
 const clientBuildDirectory = path.join(__dirname, "..", "client", "build");

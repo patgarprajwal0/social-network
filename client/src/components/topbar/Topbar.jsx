@@ -39,21 +39,10 @@ export default function Topbar() {
       <div className="topbarRight">
         <div className="topbarLinks">
           <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">Timeline</span>
+          {/* <span className="topbarLink">Timeline</span> */}
         </div>
         <div className="topbarIcons">
-          <div className="topbarIconItems">
-            <Person />
-            <span className="topbarIconBadge">1</span>
-          </div>
-          <div className="topbarIconItems">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
-          </div>
-          <div className="topbarIconItems">
-            <Notifications />
-            <span className="topbarIconBadge">1</span>
-          </div>
+          
         </div>
         <Link to={`/profile/${user.username}`}>
           <img
@@ -66,6 +55,7 @@ export default function Topbar() {
             className="topbarImage"
           />
         </Link>
+        <span>{user.username}</span>
       </div>
     </div>
   );

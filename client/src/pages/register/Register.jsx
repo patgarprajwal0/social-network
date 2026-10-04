@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const username = useRef();
-  const names = useRef();
   const email = useRef();
   const password = useRef();
   const passwordAgain = useRef();
@@ -26,7 +25,6 @@ export default function Register() {
     } else {
       const user = {
         username: username.current?.value || "",
-        name: names.current?.value || "",
         email: email.current?.value || "",
         password: password.current?.value || "",
         des: des.current?.value || "",
@@ -67,7 +65,6 @@ export default function Register() {
               <option value="teacher">Teacher</option>
             </select>
             <input placeholder="Username" required ref={username} className="loginInput" />
-            <input placeholder="Username" required ref={names} className="loginInput" />
             <input placeholder="RVCE mail id" required ref={email} className="loginInput" type="email" />
             <input placeholder="Password" required ref={password} className="loginInput" type="password" minLength="6" />
             <input placeholder="Password again" required ref={passwordAgain} className="loginInput" type="password" />

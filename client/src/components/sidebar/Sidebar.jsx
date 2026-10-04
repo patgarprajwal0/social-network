@@ -74,7 +74,7 @@ export default function Sidebar() {
     <span className="sidebarListItemText">Q&A Forums</span>
   </a>
 </li>
-          {/* <Link to={"AlumniNetwork"}>
+          <Link to={"AlumniNetwork"}>
             <li className="sidebarListItem">
               <PeopleAlt className="sidebarIcon" />
               <span className="sidebarListItemText">Alumni Network</span>
@@ -85,9 +85,9 @@ export default function Sidebar() {
               <BusinessCenter className="sidebarIcon" />
               <span className="sidebarListItemText">Placement Cell</span>
             </li>
-          </Link> */}
+          </Link>
         </ul>
-        {/* <button className="sidebarButton">Show more</button> */}
+        <button className="sidebarButton">Show more</button>
         <hr className="sidebarHr" />
         {/* <ul className="sidebarFriendList">
           {Users.map((u) => (

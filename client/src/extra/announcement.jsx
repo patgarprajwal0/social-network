@@ -9,7 +9,7 @@ const Announcement = () => {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/announcements');
+        const res = await axios.get('/announcements');
         setAnnouncements(res.data);
       } catch (err) {
         console.error("Error fetching announcements:", err);

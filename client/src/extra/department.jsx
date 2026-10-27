@@ -8,7 +8,7 @@ const Department = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const res = await axios.get('http://localhost:8800/api/departments');
+        const res = await axios.get('/departments');
         setDepartments(res.data);
       } catch (err) {
         console.error("Error fetching departments:", err);

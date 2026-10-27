@@ -4,10 +4,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Add, Remove } from "@mui/icons-material";
 import { AuthContext } from "../../context/AuthContext";
+import { imageUrl } from "../../config";
 
 export default function Rightbar({ user }) {
-  const PF = "http://localhost:8800/images/";
-  axios.defaults.baseURL = "http://localhost:8800/api";
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -85,9 +84,7 @@ export default function Rightbar({ user }) {
               <div className="rightbarFollowing">
                 <img
                   src={
-                    user.profilePicture
-                      ? PF + user.profilePicture
-                      : PF + "person/noAvatar.png"
+                    imageUrl(user.profilePicture || "person/noAvatar.png")
                   }
                   alt=""
                   className="rightbarFollowingImg"
@@ -155,9 +152,7 @@ export default function Rightbar({ user }) {
               <div className="rightbarFollowing">
                 <img
                   src={
-                    friend.profilePicture
-                      ? PF + friend.profilePicture
-                      : PF + "person/noAvatar.png"
+                    imageUrl(friend.profilePicture || "person/noAvatar.png")
                   }
                   alt=""
                   className="rightbarFollowingImg"

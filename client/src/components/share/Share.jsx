@@ -3,10 +3,10 @@ import "./share.css";
 import {PermMedia,Label,Room,EmojiEmotions, Cancel} from "@mui/icons-material";
 import {AuthContext} from "../../context/AuthContext";
 import axios from "axios"
+import { imageUrl } from "../../config";
 
 export default function Share() {
     const {user}=useContext(AuthContext);
-    const PF = "http://localhost:8800/images/";
     const desc = useRef();
     const [file,setFile]=useState(null)
 
@@ -18,14 +18,13 @@ export default function Share() {
         }
         if(file){
             const data=new FormData();
-            const fileName=file.name;
             data.append("file",file);
-            data.append("name",fileName);
-            newPost.img=fileName;
             try{
-                await axios.post("/upload",data)
+                const uploaded = await axios.post("/upload",data)
+                newPost.img = uploaded.data.url;
             }catch(err){
                 console.log(err);
+                return;
             }
         }
         try{
@@ -40,7 +39,7 @@ export default function Share() {
         <div className="share">
             <div className="shareWrapper">
                 <div className="shareTop">
-                    <img className="shareProfileImg" src={user.profilePicture?PF+user.profilePicture:PF+"person/noAvatar.png"} alt=""/>
+                    <img className="shareProfileImg" src={imageUrl(user.profilePicture || "person/noAvatar.png")} alt=""/>
                     <input placeholder={"Whats in your mind "+user.username+"?"} className="ShareInput" ref={desc}/>
                 </div>
                 <hr className="shareHr"/>

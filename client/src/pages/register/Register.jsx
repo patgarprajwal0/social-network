@@ -2,9 +2,9 @@ import "./register.css";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
 
 export default function Register() {
-  axios.defaults.baseURL = "http://localhost:8800/api";
   const username = useRef();
   const names = useRef();
   const email = useRef();
@@ -37,7 +37,7 @@ export default function Register() {
         isAdmin: userType === "teacher", // Set isAdmin for teacher
       };
       try {
-        await axios.post("/auth/register", user);
+        await axios.post(`${API_URL}/auth/register`, user);
         navigate("/login");
       } catch (err) {
         console.log(err);

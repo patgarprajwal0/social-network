@@ -15,6 +15,7 @@ import {
 
 import { Users } from "../../dummyData";
 import CloseFriend from "../closeFriend/CloseFriend";
+import { QA_URL } from "../../config";
 
 export default function Sidebar() {
   return (
@@ -63,17 +64,14 @@ export default function Sidebar() {
               <span className="sidebarListItemText">About RVCE</span>
             </li>
           </Link>
-          <li className="sidebarListItem">
-  <a
-    href="http://localhost:8501/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="sidebarLink"
-  >
-    <QuestionAnswer className="sidebarIcon" />
-    <span className="sidebarListItemText">Q&A Forums</span>
-  </a>
-</li>
+          {QA_URL && (
+            <li className="sidebarListItem">
+              <a href={QA_URL} target="_blank" rel="noopener noreferrer" className="sidebarLink">
+                <QuestionAnswer className="sidebarIcon" />
+                <span className="sidebarListItemText">Q&amp;A Forums</span>
+              </a>
+            </li>
+          )}
           {/* <Link to={"AlumniNetwork"}>
             <li className="sidebarListItem">
               <PeopleAlt className="sidebarIcon" />

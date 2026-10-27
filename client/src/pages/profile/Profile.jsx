@@ -6,11 +6,10 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import {useState,useEffect} from "react";
 import axios from "axios"
 import { useParams } from "react-router";
+import { imageUrl } from "../../config";
 
 
 export default function Profile({post}) {
-  axios.defaults.baseURL = 'http://localhost:8800/api/';
-  const PF = "http://localhost:8800/images/";
   const [user,setUser] = useState({});
   const username = useParams().username;
   useEffect(()=>{
@@ -29,8 +28,8 @@ export default function Profile({post}) {
         <div className="profileRight">
             <div className="profileRightTop">
                 <div className="profileCover">
-                  <img className="profileCoverImg " src={user.coverPicture?PF+user.coverPicture:PF+"/person/noCover.png"} alt="" />
-                  <img className="profileUserImg" src={user.profilePicture?PF+user.profilePicture:PF+"/person/noAvatar.png"} alt="" />
+                  <img className="profileCoverImg " src={imageUrl(user.coverPicture || "person/noCover.png")} alt="" />
+                  <img className="profileUserImg" src={imageUrl(user.profilePicture || "person/noAvatar.png")} alt="" />
                 </div>
                 <div className="profileInfo">
                   <h4 className="profileInfoName">{user.username}</h4>

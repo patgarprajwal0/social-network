@@ -15,50 +15,60 @@ const internshipRoutes = require("./routes/internships");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const { randomUUID } = require("crypto");
+const { put } = require("@vercel/blob");
 
 dotenv.config();
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Successfully connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-  });
+app.use(cors());
 
-// Serve images statically
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+// Vercel serves these from its CDN; this keeps local development working.
+if (!process.env.VERCEL) {
+  app.use("/images", express.static(path.join(__dirname, "public/images")));
+}
+
+// Reuse the connection when Vercel keeps this function instance warm.
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState === 1) return next();
+  if (!process.env.MONGO_URL) {
+    return res.status(500).json({ error: "MONGO_URL is not configured" });
+  }
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    next();
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err);
+    res.status(503).json({ error: "Database connection failed" });
+  }
+});
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
 // Multer configuration for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 4 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    cb(null, ["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.mimetype));
   },
 });
 
-const upload = multer({ storage });
-
 // File upload endpoint
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
-    return res.status(200).json("File uploaded successfully");
+    if (!req.file) return res.status(400).json({ error: "Choose a supported image (max 4 MB)" });
+    const extension = path.extname(req.file.originalname).toLowerCase();
+    const image = await put(`uploads/${randomUUID()}${extension}`, req.file.buffer, {
+      access: "public",
+      contentType: req.file.mimetype,
+    });
+    return res.status(200).json({ url: image.url });
   } catch (err) {
     console.log(err);
-    return res.status(500).json("File upload failed");
+    return res.status(500).json({ error: "File upload failed" });
   }
 });
 
@@ -81,7 +91,11 @@ app.get("/users", (req, res) => {
   res.send("Welcome to home user");
 });
 
-// Start the server
-app.listen(8800, () => {
-  console.log("Backend server is running on port 8800");
-});
+// Vercel imports the Express app; local development starts it as a regular server.
+if (require.main === module) {
+  app.listen(process.env.PORT || 8800, () => {
+    console.log(`Backend server is running on port ${process.env.PORT || 8800}`);
+  });
+}
+
+module.exports = app;

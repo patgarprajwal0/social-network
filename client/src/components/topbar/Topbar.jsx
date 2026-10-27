@@ -3,10 +3,10 @@ import { Search, Person, Chat, Notifications } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { imageUrl } from "../../config";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
-  const PF = "http://localhost:8800/images/";
   const [searchQuery, setSearchQuery] = useState(""); // State to track search input
   const navigate = useNavigate(); // Hook to programmatically navigate
 
@@ -46,9 +46,7 @@ export default function Topbar() {
         <Link to={`/profile/${user.username}`}>
           <img
             src={
-              user.profilePicture
-                ? PF + user.profilePicture
-                : PF + "person/noAvatar.png"
+              imageUrl(user.profilePicture || "person/noAvatar.png")
             }
             alt=""
             className="topbarImage"
